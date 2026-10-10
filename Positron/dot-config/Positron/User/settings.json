@@ -1,0 +1,46 @@
+{
+    "files.associations": {
+        "**/.posit/ai/providers.json": "jsonc",
+        "**/.posit/ai/auth/data.json": "jsonc",
+        "**/.posit/assistant/settings.json": "jsonc",
+        "renv.lock": "json"
+    },
+    "chat.agent.enabled": false,
+    "chat.agent.codeBlockProgress": false,
+    "editor.fontFamily": "'JetBrains Mono', monospace",
+    "editor.fontSize": 13,
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 80,
+    "editor.formatOnSave": true,
+    "console.fontFamily": "Jetbrains Mono",
+    "console.fontSize": 12.5,
+    "console.fontWeight": 450,
+    "terminal.integrated.fontFamily": "JetBrains Mono",
+    "terminal.integrated.lineHeight": 1.15,
+    "terminal.integrated.fontWeight": 450,
+    "terminal.integrated.fontSize": 12.5,
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.commandsToSkipShell": [
+        "matlab.interrupt"
+    ],
+    "workbench.colorTheme": "Catppuccin Latte",
+    "catppuccin.italicKeywords": false,
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredDarkColorTheme": "Catppuccin Frappé",
+    "workbench.preferredLightColorTheme": "Catppuccin Latte",
+    "positron.notebook.enabled": true,
+    "window.controlsStyle": "custom",
+    "MATLAB.telemetry": false,
+    "MATLAB.defaultEditor": false,
+    "[m]": {
+        "editor.defaultFormatter": "MathWorks.language-matlab",
+        "editor.formatOnType": true
+    },
+    "[r]": {
+        "editor.defaultFormatter": "Posit.air-vscode",
+        "editor.formatOnType": true
+    },
+    "terminal.external.linuxExec": "alacritty",
+    "terminal.integrated.fontLigatures.enabled": true
+}

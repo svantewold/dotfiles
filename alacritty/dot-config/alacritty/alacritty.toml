@@ -1,0 +1,19 @@
+[general]
+	import = ["catppuccin/catppuccin-frappe.toml"]
+
+[window]
+	padding = {x = 13, y = 8}
+	dynamic_padding = false 
+	opacity = 0.95
+	blur = true
+	decorations = "None"
+[font]
+	normal = {
+		family = "JetBrainsMono Nerd Font"
+	}
+	size = 11.25
+	offset = {y = -1}
+[cursor]
+	style = { shape = "Beam", blinking = "On" }
+[mouse]
+	hide_when_typing = true
