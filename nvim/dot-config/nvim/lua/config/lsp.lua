@@ -4,7 +4,7 @@ vim.lsp.enable({
   "r_language_server",
   "tinymist",
   "matlab_ls",
-  "pylsp"
+  "pyright"
 })
 
 vim.api.nvim_create_autocmd('LspAttach', {
