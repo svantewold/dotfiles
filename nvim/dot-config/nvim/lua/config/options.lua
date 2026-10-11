@@ -20,3 +20,5 @@ vim.o.pumborder = "rounded"
 vim.opt.complete:append('o')
 vim.opt.completeopt = { 'menuone', 'noselect', 'fuzzy' }
 vim.opt.winborder = "rounded"
+
+vim.keymap.set('n', '<leader>p', ':TypstPreviewToggle')
