@@ -1,0 +1,68 @@
+#!/bin/sh
+
+usage() {
+  echo "Usage: $0 [-p] [-h]"
+}
+
+help_page() {
+  printf "\n    Rename Matlab's bundled GCC libraries to avoid conflict\n"
+  printf "    with newer versions provided by most Linux distributions.\n"
+  printf "\n    Options:\n\t-p \t specify MATLAB path, no default.\n\t-h \t help\n"
+}
+
+while getopts ":p:h" opt; do
+  case $opt in
+    p)
+      MATLAB_PATH="$OPTARG"
+      ;;
+    h)
+      usage
+      help_page
+      exit 0
+      ;;
+    \?)
+      echo "Invalid option -$OPTARG"
+      usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument."
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ "$EUID" -ne 0 ]
+  then echo "This installation requires root privileges. Aborting."
+  exit 1
+fi
+
+if [ -z "$MATLAB_PATH" ]; then
+  echo "Please provide MATLAB path."
+  usage
+  exit 1
+fi
+
+MATLAB_LIB=$MATLAB_PATH/sys/os/glnxa64
+
+LIB1=$MATLAB_LIB/libgcc_s.so.1
+LIB2=$MATLAB_LIB/libstdc++.so.6
+LIB3=$MATLAB_LIB/libgfortran.so.5
+LIB4=$MATLAB_LIB/libquadmath.so.0
+
+if [ -f $LIB1 ] && [ -f $LIB2 ] && [ -f $LIB3 ] && [ -f $LIB4 ]; then
+  echo "Renaming bundled Matlab GCC libraries..."
+  for f in $LIB1 \
+    $LIB2 \
+    $LIB3 \
+    $LIB4; do
+  [ -e "$f" ] && mv "$f" "$f.bak" && echo "Renamed $f to $f.bak"
+done
+else
+  if [ -f $LIB1.bak ] && [ -f $LIB2.bak ] && [ -f $LIB3.bak ] && [ -f $LIB4.bak ]; then
+    echo "Libraries are already correctly appended."
+  else
+    echo "Could not find libraries. Aborting."
+  fi
+fi
