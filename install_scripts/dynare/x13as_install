@@ -1,0 +1,78 @@
+#!/bin/sh
+source_url="https://www2.census.gov/software/x-13arima-seats/x13as/unix-linux/program-archives"
+
+usage() {
+  echo "Usage: $0 [-d] [-h]"
+}
+
+help_page() {
+  printf "\n    Compile and install the X-13ARIMA-SEATS Seasonal Adjustment Program\n"
+  printf "    from $source_url\n"
+  printf "\n    Options:\n\t-d \t specify directory for source code, no default.\n\t-h \t help\n"
+}
+
+while getopts ":d:h" opt; do
+  case $opt in
+    d)
+      SOURCE_DIRECTORY_PATH="$OPTARG"
+      ;;
+    h)
+      usage
+      help_page
+      exit 0
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG"
+      usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument."
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ -z "$SOURCE_DIRECTORY_PATH" ]; then
+  echo "Please provide a path to place the source directory in."
+  usage
+  exit 1
+fi
+
+install_path=/usr/local/bin/x13as
+source_dir=$SOURCE_DIRECTORY_PATH/x13as
+
+if test -f $install_path; then
+  printf "Found already installed binary in: $install_path\n"
+  printf "Aborting installation process.\n"
+  exit 0
+fi
+
+mkdir -p $source_dir
+cd $source_dir
+
+build_dir="x13as_asciisrc-v1-1-b62"
+source_archive=$build_dir.tar.gz
+
+wget -q $source_url/$source_archive
+
+tar -xf $source_archive
+rm $source_archive
+
+cd $build_dir
+
+sed -i "s|-static| |" makefile.gf
+
+if make -f makefile.gf FFLAGS="-O2 -std=legacy" PROGRAM=x13as; then
+  echo "Compiled x13as binary."
+else
+  echo "Failed to compile binary."
+  exit 1
+fi
+
+if install x13as $install_path; then
+  echo "Successfully installed x13as binary to $install_path"
+else
+  echo "An error occurred: install failed."
+fi

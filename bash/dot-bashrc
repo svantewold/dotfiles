@@ -32,3 +32,4 @@ alias open="xdg-open"
 alias mat="matlab -nodesktop -nojvm"
 alias matscript="matlab -batch"
 alias mkdirs="mkdir -p"
+alias nv=nvim

@@ -1,0 +1,66 @@
+#!/bin/sh
+typst_version="0.15.1"
+path=~/.local/bin/typst
+
+usage() {
+  echo "Usage: typst_install [-p] [-h]"
+}
+
+help_page() {
+  printf "\n    Install the official Typst binary from https://github.com/typst/typst\n"
+  printf "    - Typst version: $typst_version\n"
+  printf "\n    Options:\n\t-p \t specify installation path, defaults to ~/.local/bin/\n\t-h \t help\n"
+}
+
+while getopts ":p:h" opt; do
+  case $opt in
+    p)
+      path="$OPTARG/typst"
+      ;;
+    h)
+      usage
+      help_page
+      exit 0
+      ;;
+    \?)
+      echo "Invalid option -$OPTARG"
+      usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument."
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if test -f $path; then
+  printf "Found installed Typst binary in: $path\n\nAborting installation process.\n"
+  exit 0
+fi
+
+dir="typst-x86_64-unknown-linux-musl"
+archive="typst-x86_64-unknown-linux-musl.tar.xz"
+
+wget -q https://github.com/typst/typst/releases/download/v$typst_version/$archive
+
+checksum="a6d077d0a95eed5a2eba715b2dae06be954f624ccbf85758a03f389ded33118c"
+
+if ! echo $checksum $archive | sha256sum -c --status; then
+  echo "Signature could not be verified!"
+  exit 1
+else
+  tar -xf $archive
+fi
+
+if install $dir/typst $path; then
+  printf "\nSuccessfully installed Typst version $typst_version to $path\n"
+else
+  echo "An error occurred: install failed."
+  exit 1
+fi
+
+rm -r $dir
+rm $archive
+printf "\nCleaned up downloaded files."
