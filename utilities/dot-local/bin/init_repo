@@ -1,0 +1,37 @@
+#!/bin/sh
+
+repo_root=$1
+
+if [ -z $1 ]
+then 
+  echo "Please supply a name for the repository."
+  exit 1
+fi
+
+
+if test -d $repo_root; then
+  echo "Cannot overwrite existing directory, please"
+  echo "provide another name for the repository."
+  exit 1
+else
+  if mkdir $repo_root; then
+    echo "Created repository $repo_root"
+    cd $repo_root
+  fi
+fi
+
+if mkdir -p src output data/raw data/processed; then
+  echo "Created subdirectories: src/ output/ data/"
+else
+  echo "An error occurred while setting up the repository structure. Aborting."
+  exit 1
+fi
+
+if touch .gitignore README.md run.sh; then
+  echo "Provided .gitignore, README and entry point"
+else
+  echo "Failed to generate .gitignore, README and entry point."
+  exit 1
+fi
+
+git init
