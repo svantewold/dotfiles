@@ -34,6 +34,11 @@ while getopts ":d:h" opt; do
   esac
 done
 
+if [ "$EUID" -ne 0 ]
+  then echo "This installation requires root privileges. Aborting."
+  exit 1
+fi
+
 if [ -z "$SOURCE_DIRECTORY_PATH" ]; then
   echo "Please provide a path to place the source directory in."
   usage
