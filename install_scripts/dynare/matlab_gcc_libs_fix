@@ -63,6 +63,7 @@ else
   if [ -f $LIB1.bak ] && [ -f $LIB2.bak ] && [ -f $LIB3.bak ] && [ -f $LIB4.bak ]; then
     echo "Libraries are already correctly appended."
   else
-    echo "Could not find libraries. Aborting."
+    echo "Could not find libraries. Check that you entered the correct"
+    echo "Matlab path. Aborting."
   fi
 fi
