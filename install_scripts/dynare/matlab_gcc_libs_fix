@@ -34,7 +34,7 @@ while getopts ":p:h" opt; do
 done
 
 if [ "$EUID" -ne 0 ]
-  then echo "This installation requires root privileges. Aborting."
+  then echo "This program requires root privileges. Aborting."
   exit 1
 fi
 
