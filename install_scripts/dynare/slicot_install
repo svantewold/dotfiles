@@ -1,0 +1,90 @@
+#!/bin/sh
+source_url="https://github.com/SLICOT/SLICOT-Reference/archive/refs/tags/v5.9.1.tar.gz"
+
+usage() {
+  echo "Usage: $0 [-d] [-h]"
+}
+
+help_page() {
+  printf "\n    Compile and install the SLICOT library\n"
+  printf "    from $source_url\n"
+  printf "\n    Options:\n\t-d \t specify directory for source code, no default.\n\t-h \t help\n"
+}
+
+while getopts ":d:h" opt; do
+  case $opt in
+    d)
+      SOURCE_DIRECTORY_PATH="$OPTARG"
+      ;;
+    h)
+      usage
+      help_page
+      exit 0
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG"
+      usage
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument."
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ "$EUID" -ne 0 ]
+  then echo "This installation requires root privileges. Aborting."
+  exit 1
+fi
+
+if [ -z "$SOURCE_DIRECTORY_PATH" ]; then
+  echo "Please provide a path to place the source directory in."
+  usage
+  exit 1
+fi
+
+install_path="$SOURCE_DIRECTORY_PATH/slicot/lib/libslicot64_pic.a"
+slicot_dir="$SOURCE_DIRECTORY_PATH/slicot"
+
+if test -f $install_path; then
+  printf "Found already installed library in: $install_path\n"
+  printf "Aborting installation process.\n"
+  exit 0
+fi
+
+mkdir -p $slicot_dir/lib
+cd $slicot_dir
+
+source_dir="SLICOT-Reference-5.9.1"
+source_archive="v5.9.1.tar.gz"
+
+wget -q $source_archive $source_url
+
+tar -xf $source_archive
+rm $source_archive
+
+cd $source_dir
+
+sed -i 's/FIND_PACKAGE(\(.*\) REQUIRED)/FIND_PACKAGE(\1)/g' CMakeLists.txt
+
+if cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DSLICOT_TESTING=OFF -DSLICOT_INTEGER8=ON; then
+  echo "Configured build."
+else
+  echo "Failed to configure build."
+  exit 1
+fi
+
+if cmake --build build; then
+  echo "Built library successfully."
+else
+  echo "Failed to build library."
+  exit 1
+fi
+
+if install build/lib/libslicot64.a $install_path; then
+  echo "Successfully installed SLICOT library to $install_path"
+else
+  echo "An error occurred: install failed."
+fi
