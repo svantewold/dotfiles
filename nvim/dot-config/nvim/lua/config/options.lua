@@ -21,5 +21,6 @@ vim.opt.complete:append('o')
 vim.opt.completeopt = { 'menuone', 'noselect', 'fuzzy' }
 vim.opt.winborder = "rounded"
 
+vim.api.nvim_create_user_command('TypstCompile', 'silent !typst c "%"', {})
+vim.api.nvim_create_user_command('TypstWatch', 'silent !typst w "%"', {})
 vim.keymap.set('n', '<leader>tp', ':TypstPreviewToggle<CR>')
-vim.keymap.set('n', '<leader>tc', ':silent !typst compile "%"<CR>')
