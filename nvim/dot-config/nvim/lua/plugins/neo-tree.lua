@@ -16,6 +16,11 @@ return {
           color = "#FF7518",
           cterm_color = "111",
           name = "ObjectiveC"
+        },
+        ["mod"] = {
+          icon = "",
+          color = "#00B4D5",
+          name = "dynare"
         }
       },
     })

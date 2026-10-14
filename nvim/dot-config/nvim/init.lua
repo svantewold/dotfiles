@@ -19,3 +19,4 @@ vim.opt.rtp:prepend(lazypath)
 local opts = {}
 
 require("lazy").setup("plugins")
+require("config.custom_filetypes")
