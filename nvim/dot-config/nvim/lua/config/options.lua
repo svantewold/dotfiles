@@ -21,4 +21,5 @@ vim.opt.complete:append('o')
 vim.opt.completeopt = { 'menuone', 'noselect', 'fuzzy' }
 vim.opt.winborder = "rounded"
 
-vim.keymap.set('n', '<leader>p', ':TypstPreviewToggle<CR>')
+vim.keymap.set('n', '<leader>tp', ':TypstPreviewToggle<CR>')
+vim.keymap.set('n', '<leader>tc', ':!typst compile %')
