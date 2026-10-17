@@ -12,3 +12,5 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "TextChanged", "TextChangedI" }, {
   buffer = 0,
   callback = highlight_comments,
 })
+
+vim.o.makeprg = 'matlab -batch dynare %'
