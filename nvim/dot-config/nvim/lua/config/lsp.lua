@@ -1,3 +1,5 @@
+-- Enable LSP servers
+
 vim.lsp.enable({
   "lua_ls",
   "air",
