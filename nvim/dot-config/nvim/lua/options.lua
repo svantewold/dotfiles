@@ -22,7 +22,7 @@ vim.opt.completeopt = { 'menuone', 'noselect', 'fuzzy' }
 vim.opt.winborder = "rounded"
 
 -- Custom commands
-vim.api.nvim_create_user_command('TypstCompile', 'silent !typst c "%"', {})
+vim.api.nvim_create_user_command('TypstCompile', 'LspTinymistExportPdf', {})
 vim.api.nvim_create_user_command('WordCount', 'lua print(vim.fn.wordcount().words)', {})
 
 -- Keymaps

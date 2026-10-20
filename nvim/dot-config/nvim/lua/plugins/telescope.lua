@@ -13,10 +13,14 @@ return {
     require('telescope').setup({
       pickers = {
         find_files = {
-          theme = "ivy",
-        }
+          theme = "dropdown",
+        },
+        commands = {
+          theme = "dropdown",
+        },
       }
     })
     vim.keymap.set('n', '<C-p>', builtin.find_files, {})
+    vim.keymap.set('n', '<leader>p', builtin.commands, {})
   end
 }

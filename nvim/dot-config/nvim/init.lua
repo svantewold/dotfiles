@@ -1,4 +1,4 @@
-require("config.options")
+require("options")
 require("config.lsp")
 require("config.consoles")
 
